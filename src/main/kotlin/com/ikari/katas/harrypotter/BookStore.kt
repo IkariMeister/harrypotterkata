@@ -12,112 +12,52 @@ class BookStore(private val books: List<Book> = listOf()) {
     private fun calculateBasePrice() = books.size * 8.0
 
     private fun calculateDiscount(): Double {
-        val hp1 = mutableListOf<Book>()
-        val hp2 = mutableListOf<Book>()
-        val hp3 = mutableListOf<Book>()
-        val hp4 = mutableListOf<Book>()
-        val hp5 = mutableListOf<Book>()
-        var discount = 0.0
-
-        for (b in books) {
-            if (b is Book.HarryPotterI) {
-                hp1.add(b)
-            } else if (b is Book.HarryPotterII) {
-                hp2.add(b)
-            } else if (b is Book.HarryPotterIII) {
-                hp3.add(b)
-            } else if (b is Book.HarryPotterIV) {
-                hp4.add(b)
-            } else if (b is Book.HarryPotterV) {
-                hp5.add(b)
-            }
-        }
-        if ((hp1.size == hp2.size) && (hp1.size == hp3.size) && (hp1.size == hp4.size) && (hp1.size == hp5.size))
-            discount = 0.25
-        else if (hp1.size != 0) {
-            if (hp2.size != 0) {
-                if (hp3.size != 0) {
-                    if (hp4.size != 0) {
-                        discount = 0.2
-                    } else if (hp5.size != 0) {
-                        discount = 0.2
-                    } else {
-                        discount = 0.1
-                    }
-                } else {
-                    if (hp4.size != 0) {
-                        if (hp5.size != 0) {
-                            discount = 0.2
-                        } else {
-                            discount = 0.1
-                        }
-                    } else if(hp5.size!=0) {
-                        discount = 0.1
-                    }else{
-                        discount = 0.05
-                    }
+        val hp1 = books.filter { it is Book.HarryPotterI }
+        val hp2 = books.filter { it is Book.HarryPotterII }
+        val hp3 = books.filter { it is Book.HarryPotterIII }
+        val hp4 = books.filter { it is Book.HarryPotterIV }
+        val hp5 = books.filter { it is Book.HarryPotterV }
+        return 1.0 -
+                when {
+                    fiveBooks(hp1, hp2, hp3, hp4, hp5) -> 0.25
+                    fourBooks(hp1, hp2, hp3, hp4, hp5) -> 0.2
+                    threeBooks(hp1, hp2, hp3, hp4, hp5) -> 0.1
+                    twoBooks(hp1, hp2, hp3, hp4, hp5) -> 0.05
+                    else -> 0.0
                 }
-            } else if (hp3.size != 0) {
-                if (hp4.size != 0) {
-                    if (hp5.size != 0) {
-                        discount = 0.2
-                    } else {
-                        discount = 0.1
-                    }
-                } else if (hp5.size != 0) {
-                    discount = 0.1
-                } else {
-                    discount = 0.05
-                }
-            } else if (hp4.size != 0) {
-                if(hp5.size!=0){
-                    discount = 0.1
-                }else {
-                    discount = 0.05
-                }
-            } else if (hp5.size != 0) {
-                discount = 0.05
-            }
-
-        } else if (hp2.size != 0) {
-            if (hp3.size != 0) {
-                if (hp4.size != 0) {
-                    if(hp5.size!=0){
-                        discount = 0.2
-                    }else {
-                        discount = 0.1
-                    }
-                } else if (hp5.size != 0) {
-                    discount = 0.1
-                } else {
-                    discount = 0.05
-                }
-            } else if (hp4.size != 0) {
-                if (hp5.size != 0) {
-                    discount = 0.1
-                } else {
-                    discount = 0.05
-                }
-            } else if (hp5.size != 0) {
-                discount = 0.05
-            }
-
-        } else if (hp3.size != 0) {
-            if (hp4.size != 0) {
-                if (hp5.size != 0) {
-                    discount = 0.1
-                } else {
-                    discount = 0.05
-                }
-            } else if (hp5.size != 0) {
-                discount = 0.05
-            }
-        } else if (hp4.size != 0) {
-            if (hp5.size != 0) {
-                discount = 0.05
-            }
-        }
-        return 1.0 - discount
     }
+
+    private fun twoBooks(hp1: List<Book>, hp2: List<Book>, hp3: List<Book>, hp4: List<Book>, hp5: List<Book>) =
+            (hp1.isNotEmpty() && hp2.isNotEmpty()) ||
+                    (hp1.isNotEmpty() && hp3.isNotEmpty()) ||
+                    (hp1.isNotEmpty() && hp4.isNotEmpty()) ||
+                    (hp1.isNotEmpty() && hp5.isNotEmpty()) ||
+                    (hp2.isNotEmpty() && hp3.isNotEmpty()) ||
+                    (hp2.isNotEmpty() && hp4.isNotEmpty()) ||
+                    (hp2.isNotEmpty() && hp5.isNotEmpty()) ||
+                    (hp3.isNotEmpty() && hp4.isNotEmpty()) ||
+                    (hp3.isNotEmpty() && hp5.isNotEmpty()) ||
+                    (hp4.isNotEmpty() && hp5.isNotEmpty())
+
+    private fun threeBooks(hp1: List<Book>, hp2: List<Book>, hp3: List<Book>, hp4: List<Book>, hp5: List<Book>) =
+            (hp1.isNotEmpty() && hp2.isNotEmpty() && hp3.isNotEmpty()) ||
+                    (hp1.isNotEmpty() && hp2.isNotEmpty() && hp4.isNotEmpty()) ||
+                    (hp1.isNotEmpty() && hp2.isNotEmpty() && hp5.isNotEmpty()) ||
+                    (hp2.isNotEmpty() && hp3.isNotEmpty() && hp4.isNotEmpty()) ||
+                    (hp2.isNotEmpty() && hp3.isNotEmpty() && hp5.isNotEmpty()) ||
+                    (hp2.isNotEmpty() && hp4.isNotEmpty() && hp5.isNotEmpty()) ||
+                    (hp3.isNotEmpty() && hp4.isNotEmpty() && hp5.isNotEmpty()) ||
+                    (hp1.isNotEmpty() && hp3.isNotEmpty() && hp4.isNotEmpty()) ||
+                    (hp1.isNotEmpty() && hp3.isNotEmpty() && hp5.isNotEmpty()) ||
+                    (hp1.isNotEmpty() && hp4.isNotEmpty() && hp5.isNotEmpty())
+
+    private fun fourBooks(hp1: List<Book>, hp2: List<Book>, hp3: List<Book>, hp4: List<Book>, hp5: List<Book>) =
+            (hp1.isNotEmpty() && hp2.isNotEmpty() && hp3.isNotEmpty() && hp4.isNotEmpty()) ||
+                    (hp1.isNotEmpty() && hp2.isNotEmpty() && hp3.isNotEmpty() && hp5.isNotEmpty()) ||
+                    (hp2.isNotEmpty() && hp3.isNotEmpty() && hp4.isNotEmpty() && hp5.isNotEmpty()) ||
+                    (hp1.isNotEmpty() && hp3.isNotEmpty() && hp4.isNotEmpty() && hp5.isNotEmpty())
+
+    private fun fiveBooks(hp1: List<Book>, hp2: List<Book>, hp3: List<Book>, hp4: List<Book>, hp5: List<Book>) =
+            (hp1.size == hp2.size) && (hp1.size == hp3.size) && (hp1.size == hp4.size) && (hp1.size == hp5.size)
 
 }
