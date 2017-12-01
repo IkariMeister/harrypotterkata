@@ -8,7 +8,6 @@ class BookStore(private val books: List<Book> = listOf()) {
 
     fun addBook(book: Book) = BookStore(books.plus(book))
 
-
     private fun calculateBasePrice() = books.size * 8.0
 
     private fun calculateDiscount(): Double {
@@ -61,3 +60,5 @@ class BookStore(private val books: List<Book> = listOf()) {
             (hp1.size == hp2.size) && (hp1.size == hp3.size) && (hp1.size == hp4.size) && (hp1.size == hp5.size)
 
 }
+
+
