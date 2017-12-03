@@ -12,7 +12,7 @@ class BookSetTest extends Specification {
         then: "is not Empty"
         !bookSet.books.isEmpty()
         and: "price is 8.0"
-        bookSet.price() ==8.0D
+        bookSet.price ==8.0D
         and: "discount is 0"
         bookSet.discount == 0.0D
     }
@@ -27,7 +27,7 @@ class BookSetTest extends Specification {
         then: "you cannot add it"
         !bookSet.canAdd(book)
         and: "price is 8.0"
-        bookSet.price() ==8.0D
+        bookSet.price ==8.0D
         and: "discount is 0"
         bookSet.discount == 0.0D
     }
@@ -40,7 +40,7 @@ class BookSetTest extends Specification {
         when: "A Harry Potter I Book is added"
         bookSet = bookSet.addBook(book)
         then: "price is 15.2"
-        bookSet.price() ==15.2D
+        bookSet.price ==15.2D
         and: "discount is 0.05"
         bookSet.discount == 0.05D
     }
@@ -53,7 +53,7 @@ class BookSetTest extends Specification {
         when: "A Harry Potter III Book is added"
         bookSet = bookSet.addBook(book)
         then: "price is 21.6"
-        bookSet.price() ==21.6D
+        bookSet.price ==21.6D
         and: "discount is 0.1"
         bookSet.discount == 0.1D
     }
@@ -66,7 +66,7 @@ class BookSetTest extends Specification {
         when: "A Harry Potter IV Book is added"
         bookSet = bookSet.addBook(book)
         then: "price is 25.6"
-        bookSet.price() ==25.6D
+        bookSet.price ==25.6D
         and: "discount is 0.2"
         bookSet.discount == 0.2D
     }
@@ -79,7 +79,7 @@ class BookSetTest extends Specification {
         when: "A Harry Potter V Book is added"
         bookSet = bookSet.addBook(book)
         then: "price is 30"
-        bookSet.price() ==30D
+        bookSet.price ==30D
         and: "discount is 0.25"
         bookSet.discount == 0.25D
     }
